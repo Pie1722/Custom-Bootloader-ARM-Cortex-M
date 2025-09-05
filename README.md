@@ -2,7 +2,7 @@
 
 A bootloader is a small program that runs immediately after a microcontroller (MCU) resets or powers up. After the boot ROM's execution, the bootloader is executed and will do the update when required and  then execute the end-user application.
 
-The STM32F103C8T6 (the common “Blue Pill” MCU) comes from ST with a factory-programmed bootloader in ROM (system memory).
+The STM32F103C8T6 (the common “Blue Pill” MCU) comes from ST with a factory programmed bootloader in ROM (system memory).
 
 This bootloader is permanent and stored in system memory (0x1FFFF000 on F1 series), not in Flash, so you can’t erase it.
 
