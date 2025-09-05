@@ -212,7 +212,7 @@ void jump_to_firmware(uint32_t * appAddress) {
 
 ### Reference:
 
-[ARM	Article ID: KBA-2218] (https://developer.arm.com/documentation/ka002218/latest/)
+[ARM	Article ID: KBA-2218] [(https://developer.arm.com/documentation/ka002218/latest/)](https://developer.arm.com/documentation/ka002218/latest/)
 
 
 
