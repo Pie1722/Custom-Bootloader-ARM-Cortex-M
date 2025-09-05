@@ -83,6 +83,27 @@ The function won’t know how to fetch the stack pointer and reset vector → so
 At best, you’d just have a raw number, and if you try to cast and jump directly, it’ll crash because you didn’t set up the MSP.
 
 
+```c
+	HAL_RCC_DeInit();
+	HAL_DeInit();
+
+    SysTick->CTRL = 0;
+    SysTick->LOAD = 0;
+    SysTick->VAL  = 0;
+```
+Now we need to reset the clock and make it all back to the normal reset state so that the next application will be intialized with the reset state of MCU then the user application can reinitialze the the clock according to their use.
+
+You can also reset all the interrputs requests in NVIC but as I am not using any interrupts so it doesn't matter.
+
+
+```c
+    if( CONTROL_SPSEL_Msk & __get_CONTROL( ) )
+    {  /* MSP is not active */
+      __set_MSP( __get_PSP( ) ) ;
+      __set_CONTROL( __get_CONTROL( ) & ~CONTROL_SPSEL_Msk ) ;
+    }
+```
+
 
 
 
