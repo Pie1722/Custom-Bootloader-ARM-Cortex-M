@@ -135,14 +135,14 @@ void jump_to_firmware(uint32_t * appAddress) {
  	I'm using this as my stm32CubeIde has ARM COMPILER-6
 
 7. ```c
-   int main(void) {
-   
-   		uint8_t xinput_count = 0;
-   		uint8_t dinput_count = 0;
-   		uint8_t wireless_count = 0;
-	
- 		while (1)
-  		{
+   	int main(void)
+	{
+  		uint8_t xinput_count = 0;
+  		uint8_t dinput_count = 0;
+  		uint8_t wireless_count = 0;
+
+  	 	while (1)
+  	 	{
     		/* USER CODE END WHILE */
 	  		// Check 10 times, every 10 ms
 	    		for (int i = 0; i < 10; i++) {
@@ -170,9 +170,8 @@ void jump_to_firmware(uint32_t * appAddress) {
 	    		else {
 	        		// no button detected, loop again
 	    		}
-    		/* USER CODE BEGIN 3 */
-  		}
-   }
+  	 	}
+	}
    ```
 
    This the main function where the *jump_to_firmware* function is called with the address which is masked into uint32_t.
