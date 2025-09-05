@@ -181,15 +181,36 @@ void jump_to_firmware(uint32_t * appAddress) {
 
    The loop logic is used for debouncing for the switches. The main logic to jump to different location is to be written here.
 
-   In my code if PA8 is pressed then it will jump to location *0x08002000* and it will load the Xinput firmware for my game controller.
+   In my code if PA8 is pressed then it will jump to location ***0x08002000*** and it will load the Xinput firmware for my game controller.
 
-   If PA9 is pressed then it will jump to location *0x0800F000* and it will load the Dinput firmware for my game controller.
+   If PA9 is pressed then it will jump to location ***0x0800F000*** and it will load the Dinput firmware for my game controller.
 
-   If PA10 is pressed then it will jump to location *0x08019000* and it will load the wireless firmware for my game controller.
+   If PA10 is pressed then it will jump to location ***0x08019000*** and it will load the wireless firmware for my game controller.
 
-   How to choose the right location ?
+   **How to choose the right location ?**
 
-	The inital base address of flash memory of stm32f103c8t6 is 0x08000000 and the bootloader occupies 8KB flash area which I changed in the linker file which is produced by 		the stm32cudeide.
+	The inital base address of flash memory of stm32f103c8t6 is ***0x08000000*** and the bootloader occupies 8KB flash area which I changed in the linker file which is produced 	by the STM32CubeIDE.
+
+ 	To change the location in the linker file go to the ***STM32F103C8TX_FLASH.ld*** and change the FLASH to your respective address and size.
+
+	```c
+	/* Memories definition */
+	MEMORY
+	{
+ 	 RAM    (xrw)    : ORIGIN = 0x20000000,   LENGTH = 20K
+  	FLASH    (rx)    : ORIGIN = 0x08002000,   LENGTH = 40K
+	}
+ 	```
+
+	So to calculate the next location after the bootloader:
+	1. Convert KB into Bytes, 8Kb = 8 × 1024 = 8192 Bytes
+ 	2. Convert Bytes into Hex, 8192 Bytes = 0x2000 ; so the next starting location will be 0x08002000
+
+   You can use the same method to calculate the other locations too.
+
+#### For identification purpose whether you are in bootloader or any other firmware I have used a timer and interrupt to blink the led at certain frequency which will differ to each firmware.
+
+   
 
 
 
