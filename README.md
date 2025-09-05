@@ -177,7 +177,19 @@ void jump_to_firmware(uint32_t * appAddress) {
    }
    ```
 
-   This the main function where the **jump_to_firmware function is called
+   This the main function where the *jump_to_firmware* function is called with the address which is masked into uint32_t.
+
+   The loop logic is used for debouncing for the switches. The main logic to jump to different location is to be written here.
+
+   In my code if PA8 is pressed then it will jump to location *0x08002000* and it will load the Xinput firmware for my game controller.
+
+   If PA9 is pressed then it will jump to location *0x0800F000* and it will load the Dinput firmware for my game controller.
+
+   If PA10 is pressed then it will jump to location *0x08019000* and it will load the wireless firmware for my game controller.
+
+   How to choose the right location ?
+
+	The inital base address of flash memory of stm32f103c8t6 is 0x08000000 and the bootloader occupies 8KB flash area which I changed in the linker file which is produced by 		the stm32cudeide.
 
 
 
