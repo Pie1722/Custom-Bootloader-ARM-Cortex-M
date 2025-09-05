@@ -142,8 +142,8 @@ void jump_to_firmware(uint32_t * appAddress) {
   	uint8_t dinput_count = 0;
   	uint8_t wireless_count = 0;
 
-  	while (1)
-  	{
+  	  while (1)
+  	  {
     	/* USER CODE END WHILE */
 	  	// Check 10 times, every 10 ms
 	    	for (int i = 0; i < 10; i++) {
@@ -171,7 +171,7 @@ void jump_to_firmware(uint32_t * appAddress) {
 	    	else {
 	        	// no button detected, loop again
 	    	}
-  	}
+  	  }
 	}
 	```
 
