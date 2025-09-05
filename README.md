@@ -210,9 +210,9 @@ void jump_to_firmware(uint32_t * appAddress) {
 
 #### For identification purpose whether you are in bootloader or any other firmware I have used a timer and interrupt to blink the led at certain frequency which will differ to each firmware.
 
-### Reference:
+## Reference:
 
-[ARM	Article ID: KBA-2218] [(https://developer.arm.com/documentation/ka002218/latest/)](https://developer.arm.com/documentation/ka002218/latest/)
+[ARM	Article ID: KBA-2218](https://developer.arm.com/documentation/ka002218/latest/)
 
 
 
