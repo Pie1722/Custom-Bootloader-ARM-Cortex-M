@@ -91,9 +91,9 @@ void jump_to_firmware(uint32_t * appAddress) {
     SysTick->LOAD = 0;
     SysTick->VAL  = 0;
 	```
-Now we need to reset the clock and make it all back to the normal reset state so that the next application will be intialized with the reset state of MCU then the user application can reinitialze the the clock according to their use.
+	Now we need to reset the clock and make it all back to the normal reset state so that the next application will be intialized with the reset state of MCU then the user 		application can reinitialze the the clock according to their use.
 
-You can also reset all the interrputs requests in NVIC but as I am not using any interrupts so it doesn't matter.
+	You can also reset all the interrputs requests in NVIC but as I am not using any interrupts so it doesn't matter.
 
 
 3. ```c
@@ -103,6 +103,31 @@ You can also reset all the interrputs requests in NVIC but as I am not using any
       __set_CONTROL( __get_CONTROL( ) & ~CONTROL_SPSEL_Msk ) ;
     }
 	```
+
+   Activate the MSP, if the core is found to currently run with the PSP. As the compiler might still use the stack, the PSP needs to be copied to the MSP before this.
+
+4. ```c
+	SCB->VTOR = appAddress;
+   ```
+
+   Load the vector table address of the user application into SCB->VTOR register. Make sure the address meets the alignment requirements.
+
+5. ```c
+	BootJumpASM( appAddress[ 0 ], appAddress[ 1 ] ) ;
+   ```
+   	The final part is to set the MSP to the value found in the user application vector table and then load the PC with the reset vector value of the user application. This 		can't be done in C, as it is always possible, that the compiler uses the current SP. But that would be gone after setting the new MSP. So, a call to a small assembler 			function is done.
+
+6. The BootJumpASM( ) helper function can also be implemented with the compiler. However, writing assembler is something compiler-specific. So the implementation for the 		    BootJumpASM( ) function looks different for each compiler.
+
+	```c
+	__attribute__( ( naked, noreturn ) ) void BootJumpASM( uint32_t SP, uint32_t RH )
+	{
+  	__asm("MSR      MSP,r0");
+ 	 __asm("BX       r1");
+	}
+ 	```
+
+ 	I'm using this as my stm32CubeIde has ARM COMPILER-6
 
 
 
