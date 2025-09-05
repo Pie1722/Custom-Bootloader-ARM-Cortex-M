@@ -134,45 +134,47 @@ void jump_to_firmware(uint32_t * appAddress) {
 	```
  	I'm using this as my stm32CubeIde has ARM COMPILER-6
 
-7. ```c
-   	int main(void)
-	{
-  		uint8_t xinput_count = 0;
-  		uint8_t dinput_count = 0;
-  		uint8_t wireless_count = 0;
+7.
+```c
+int main(void)
+{
 
-  	 	while (1)
-  	 	{
-    		/* USER CODE END WHILE */
-	  		// Check 10 times, every 10 ms
-	    		for (int i = 0; i < 10; i++) {
-	        		if (HAL_GPIO_ReadPin(GPIOA, GPIO_PIN_8) == GPIO_PIN_RESET) {
-	            		xinput_count++;
-	        		}
-	        		if (HAL_GPIO_ReadPin(GPIOA, GPIO_PIN_9) == GPIO_PIN_RESET) {
-	            		dinput_count++;
-	        		}
-	        		if (HAL_GPIO_ReadPin(GPIOA, GPIO_PIN_10) == GPIO_PIN_RESET) {
-	            		wireless_count++;
-	        		}
-	        		HAL_Delay(10); // 10 ms delay
-	    		}
+  uint8_t xinput_count = 0;
+  uint8_t dinput_count = 0;
+  uint8_t wireless_count = 0;
 
-	    		if (xinput_count >= 10) {
-	        		jump_to_firmware((uint32_t *)0x08002000);
-	    		}
-	    		else if (dinput_count >= 10) {
-	        		jump_to_firmware((uint32_t *)0x0800F000);
-	    		}
-	    		else if (wireless_count >= 10) {
-	        		jump_to_firmware((uint32_t *)0x08019000);
-	    		}
-	    		else {
-	        		// no button detected, loop again
-	    		}
-  	 	}
-	}
-   ```
+  while (1)
+  {
+    /* USER CODE END WHILE */
+	  // Check 10 times, every 10 ms
+	    for (int i = 0; i < 10; i++) {
+	        if (HAL_GPIO_ReadPin(GPIOA, GPIO_PIN_8) == GPIO_PIN_RESET) {
+	            xinput_count++;
+	        }
+	        if (HAL_GPIO_ReadPin(GPIOA, GPIO_PIN_9) == GPIO_PIN_RESET) {
+	            dinput_count++;
+	        }
+	        if (HAL_GPIO_ReadPin(GPIOA, GPIO_PIN_10) == GPIO_PIN_RESET) {
+	            wireless_count++;
+	        }
+	        HAL_Delay(10); // 10 ms delay
+	    }
+
+	    if (xinput_count >= 10) {
+	        jump_to_firmware((uint32_t *)0x08002000);
+	    }
+	    else if (dinput_count >= 10) {
+	        jump_to_firmware((uint32_t *)0x0800F000);
+	    }
+	    else if (wireless_count >= 10) {
+	        jump_to_firmware((uint32_t *)0x08019000);
+	    }
+	    else {
+	        // no button detected, loop again
+	    }
+  }
+}
+```
 
    This the main function where the *jump_to_firmware* function is called with the address which is masked into uint32_t.
 
