@@ -202,9 +202,9 @@ void jump_to_firmware(uint32_t * appAddress) {
 
    So to calculate the next location after the bootloader:
 
-    1. Convert KB into Bytes, 8Kb = 8 × 1024 = 8192 Bytes
-
-    2. Convert Bytes into Hex, 8192 Bytes = 0x2000 ; so the next starting location will be 0x08002000
+   1. Convert KB into Bytes, 8Kb = 8 × 1024 = 8192 Bytes
+   
+   2. Convert Bytes into Hex, 8192 Bytes = 0x2000 ; so the next starting location will be 0x08002000
 
    You can use the same method to calculate the other locations too.
 
