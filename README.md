@@ -1,4 +1,4 @@
-# Noobs-Guide-For-Writing-Bootloader-ARM-Cortex-M
+# Noobs Guide For Writing Bootloader ARM Cortex M
 
 ## What is a Bootloader and why is it important?
 
