@@ -212,7 +212,8 @@ void jump_to_firmware(uint32_t * appAddress) {
 
 ### Reference:
 
-(ARM) {https://developer.arm.com/documentation/ka002218/latest/}
+[ARM] (https://developer.arm.com/documentation/ka002218/latest/)
+<a href="https://github.com" target="_blank">GitHub (new tab)</a>
 
 
 
