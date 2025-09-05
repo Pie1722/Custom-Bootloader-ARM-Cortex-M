@@ -53,56 +53,56 @@ void jump_to_firmware(uint32_t * appAddress) {
 
 ```
 
-We need to send the firmware address as a pointer. On ARM Cortex-M (like STM32), when you jump to an application:
+1. We need to send the firmware address as a pointer. On ARM Cortex-M (like STM32), when you jump to an application:
 
-The first word at the application’s base address holds the initial Main Stack Pointer (MSP). 
+	The first word at the application’s base address holds the initial Main Stack Pointer (MSP). 
 
-The second word holds the Reset Handler (entry point) address.
+	The second word holds the Reset Handler (entry point) address.
 
-So we need a pointer so you can dereference and fetch these values.
-```c
-void jump_to_firmware(uint32_t * appAddress) {}
-```
+	So we need a pointer so you can dereference and fetch these values.
+	```c
+	void jump_to_firmware(uint32_t * appAddress) {}
+	```
 
-### What if you don’t use a pointer?
+	### What if you don’t use a pointer?
 
-Say you write:
+	Say you write:
 
-```c
-void jump_to_firmware(uint32_t appAddress) {}
-```
+	```c
+	void jump_to_firmware(uint32_t appAddress) {}
+	```
 
-Now appAddress is just a number (an integer), not a pointer.
+	Now appAddress is just a number (an integer), not a pointer.
 
-You cannot do appAddress[0] or appAddress[1].
+	You cannot do appAddress[0] or appAddress[1].
 
-You won’t be able to read the vector table at that memory location.
+	You won’t be able to read the vector table at that memory location.
 
-The function won’t know how to fetch the stack pointer and reset vector → so it cannot properly jump to firmware.
+	The function won’t know how to fetch the stack pointer and reset vector → so it cannot properly jump to firmware.
 
-At best, you’d just have a raw number, and if you try to cast and jump directly, it’ll crash because you didn’t set up the MSP.
+	At best, you’d just have a raw number, and if you try to cast and jump directly, it’ll crash because you didn’t set up the MSP.
 
 
-```c
+2. ```c
 	HAL_RCC_DeInit();
 	HAL_DeInit();
 
     SysTick->CTRL = 0;
     SysTick->LOAD = 0;
     SysTick->VAL  = 0;
-```
+	```
 Now we need to reset the clock and make it all back to the normal reset state so that the next application will be intialized with the reset state of MCU then the user application can reinitialze the the clock according to their use.
 
 You can also reset all the interrputs requests in NVIC but as I am not using any interrupts so it doesn't matter.
 
 
-```c
+3. ```c
     if( CONTROL_SPSEL_Msk & __get_CONTROL( ) )
     {  /* MSP is not active */
       __set_MSP( __get_PSP( ) ) ;
       __set_CONTROL( __get_CONTROL( ) & ~CONTROL_SPSEL_Msk ) ;
     }
-```
+	```
 
 
 
