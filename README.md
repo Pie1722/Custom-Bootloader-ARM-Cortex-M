@@ -120,14 +120,64 @@ void jump_to_firmware(uint32_t * appAddress) {
 6. The BootJumpASM( ) helper function can also be implemented with the compiler. However, writing assembler is something compiler-specific. So the implementation for the 		    BootJumpASM( ) function looks different for each compiler.
 
 	```c
+ 	// ARM Compiler 6
 	__attribute__( ( naked, noreturn ) ) void BootJumpASM( uint32_t SP, uint32_t RH )
 	{
   	__asm("MSR      MSP,r0");
  	 __asm("BX       r1");
 	}
- 	```
 
+ 	// ARM Compiler 5
+ 	__asm __attribute__( ( noreturn ) ) void BootJumpASM( uint32_t SP, uint32_t RH )
+	{
+  	MSR      MSP,r0
+  	BX       r1
+	}
+	```
  	I'm using this as my stm32CubeIde has ARM COMPILER-6
+
+7. ```c
+   int main(void) {
+   
+   		uint8_t xinput_count = 0;
+   		uint8_t dinput_count = 0;
+   		uint8_t wireless_count = 0;
+	
+ 		while (1)
+  		{
+    		/* USER CODE END WHILE */
+	  		// Check 10 times, every 10 ms
+	    		for (int i = 0; i < 10; i++) {
+	        		if (HAL_GPIO_ReadPin(GPIOA, GPIO_PIN_8) == GPIO_PIN_RESET) {
+	            		xinput_count++;
+	        		}
+	        		if (HAL_GPIO_ReadPin(GPIOA, GPIO_PIN_9) == GPIO_PIN_RESET) {
+	            		dinput_count++;
+	        		}
+	        		if (HAL_GPIO_ReadPin(GPIOA, GPIO_PIN_10) == GPIO_PIN_RESET) {
+	            		wireless_count++;
+	        		}
+	        		HAL_Delay(10); // 10 ms delay
+	    		}
+
+	    		if (xinput_count >= 10) {
+	        		jump_to_firmware((uint32_t *)0x08002000);
+	    		}
+	    		else if (dinput_count >= 10) {
+	        		jump_to_firmware((uint32_t *)0x0800F000);
+	    		}
+	    		else if (wireless_count >= 10) {
+	        		jump_to_firmware((uint32_t *)0x08019000);
+	    		}
+	    		else {
+	        		// no button detected, loop again
+	    		}
+    		/* USER CODE BEGIN 3 */
+  		}
+   }
+   ```
+
+   This the main function where the **jump_to_firmware function is called
 
 
 
